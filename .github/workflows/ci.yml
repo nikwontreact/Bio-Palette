@@ -23,27 +23,25 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: mern/package-lock.json
     
     - name: Install dependencies
-      working-directory: ./mern
       run: npm ci
     
     - name: Run linter
-      working-directory: ./mern
       run: npm run lint
       continue-on-error: true
     
     - name: Build application
-      working-directory: ./mern
       run: npm run build
       env:
         MONGODB_URI: ${{ secrets.MONGODB_URI }}
         NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
         NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+        NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
+        CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+        CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
     
     - name: Check build output
-      working-directory: ./mern
       run: |
         if [ -d ".next" ]; then
           echo "✅ Build successful"
@@ -53,17 +51,20 @@ jobs:
           exit 1
         fi
 
-  # Optional: Add tests when you have them
-  # test:
-  #   runs-on: ubuntu-latest
-  #   needs: lint-and-build
-  #   
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - uses: actions/setup-node@v4
-  #     with:
-  #       node-version: 20.x
-  #   - run: npm ci
-  #     working-directory: ./mern
-  #   - run: npm test
-  #     working-directory: ./mern
+  deploy:
+    runs-on: ubuntu-latest
+    needs: lint-and-build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        vercel-args: '--prod'
+        working-directory: ./
