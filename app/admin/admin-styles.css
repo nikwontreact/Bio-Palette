@@ -1,0 +1,768 @@
+/* Modern Admin Panel - Matching Public Website Theme */
+
+/* ============================================
+   INHERIT PUBLIC WEBSITE THEME VARIABLES
+   ============================================ */
+.admin-panel {
+  /* Use the same theme variables as public site */
+  --admin-primary: hsl(var(--primary));
+  --admin-primary-foreground: hsl(var(--primary-foreground));
+  --admin-background: hsl(var(--background));
+  --admin-foreground: hsl(var(--foreground));
+  --admin-card: hsl(var(--card));
+  --admin-card-foreground: hsl(var(--card-foreground));
+  --admin-border: hsl(var(--border));
+  --admin-muted: hsl(var(--muted));
+  --admin-muted-foreground: hsl(var(--muted-foreground));
+  --admin-accent: hsl(var(--accent));
+  --admin-accent-foreground: hsl(var(--accent-foreground));
+  
+  /* Semantic colors */
+  --admin-success: 142 76% 36%;
+  --admin-warning: 38 92% 50%;
+  --admin-error: 0 84% 60%;
+  --admin-info: 221 83% 53%;
+  
+  /* Shadows - adjust for dark mode */
+  --shadow-color: 0 0% 0%;
+  --shadow-sm: 0 1px 2px 0 hsl(var(--shadow-color) / 0.05);
+  --shadow-md: 0 4px 6px -1px hsl(var(--shadow-color) / 0.1);
+  --shadow-lg: 0 10px 15px -3px hsl(var(--shadow-color) / 0.1);
+  --shadow-xl: 0 20px 25px -5px hsl(var(--shadow-color) / 0.1);
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark mode adjustments */
+.dark .admin-panel {
+  --shadow-color: 0 0% 100%;
+}
+
+/* Override Tailwind's slate colors in admin panel to use theme-tinted colors */
+/* More aggressive selectors to override Tailwind utilities */
+.dark .admin-panel .dark\:bg-slate-800,
+.dark .admin-panel [class*="dark:bg-slate-800"] {
+  background-color: hsl(var(--card)) !important;
+}
+
+.dark .admin-panel .dark\:bg-slate-900,
+.dark .admin-panel [class*="dark:bg-slate-900"] {
+  background-color: hsl(var(--theme-hue) 15% 10%) !important;
+}
+
+.dark .admin-panel .dark\:bg-slate-50,
+.dark .admin-panel [class*="dark:bg-slate-50"] {
+  background-color: hsl(var(--theme-hue) 15% 16%) !important;
+}
+
+.dark .admin-panel .dark\:bg-slate-700,
+.dark .admin-panel [class*="dark:bg-slate-700"] {
+  background-color: hsl(var(--theme-hue) 15% 13%) !important;
+}
+
+.dark .admin-panel .dark\:border-slate-700,
+.dark .admin-panel [class*="dark:border-slate-700"] {
+  border-color: hsl(var(--card-border)) !important;
+}
+
+.dark .admin-panel .dark\:border-slate-600,
+.dark .admin-panel [class*="dark:border-slate-600"] {
+  border-color: hsl(var(--theme-hue) 15% 18%) !important;
+}
+
+.dark .admin-panel .dark\:border-slate-800,
+.dark .admin-panel [class*="dark:border-slate-800"] {
+  border-color: hsl(var(--theme-hue) 15% 14%) !important;
+}
+
+/* Override text colors to maintain readability */
+.dark .admin-panel .dark\:text-slate-300,
+.dark .admin-panel [class*="dark:text-slate-300"] {
+  color: hsl(0 0% 85%) !important;
+}
+
+.dark .admin-panel .dark\:text-slate-400,
+.dark .admin-panel [class*="dark:text-slate-400"] {
+  color: hsl(0 0% 70%) !important;
+}
+
+/* Catch-all for any remaining slate backgrounds in dark mode */
+.dark .admin-panel [class*="bg-slate"] {
+  background-color: hsl(var(--card)) !important;
+}
+
+.dark .admin-panel [class*="border-slate"] {
+  border-color: hsl(var(--card-border)) !important;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+html {
+  scroll-behavior: smooth;
+}
+
+.admin-panel {
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--admin-background);
+  color: var(--admin-foreground);
+  min-height: 100vh;
+}
+
+/* Force all backgrounds in dark mode to use theme colors */
+.dark .admin-panel {
+  background: hsl(var(--background)) !important;
+}
+
+.dark .admin-panel > * {
+  /* Ensure child elements inherit proper background */
+  background-color: inherit;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
+.admin-panel ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.admin-panel ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.admin-panel ::-webkit-scrollbar-thumb {
+  background: var(--admin-border);
+  border-radius: 4px;
+  transition: background var(--transition-fast);
+}
+
+.admin-panel ::-webkit-scrollbar-thumb:hover {
+  background: var(--admin-muted-foreground);
+}
+
+/* ============================================
+   FOCUS STYLES
+   ============================================ */
+.admin-panel *:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.2s ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* ============================================
+   CARD COMPONENTS
+   ============================================ */
+.admin-card {
+  background: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  transition: all var(--transition-base);
+  color: var(--admin-card-foreground);
+  box-shadow: 0 1px 3px 0 hsl(var(--shadow-color) / 0.1), 0 1px 2px -1px hsl(var(--shadow-color) / 0.1);
+}
+
+.admin-card:hover {
+  border-color: hsl(var(--primary) / 0.5);
+  box-shadow: 0 10px 25px -5px hsl(var(--primary) / 0.15), 0 8px 10px -6px hsl(var(--primary) / 0.1);
+  transform: translateY(-2px);
+}
+
+.admin-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.admin-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.3);
+}
+
+/* ============================================
+   STAT CARDS
+   ============================================ */
+.stat-card {
+  background: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-base);
+  box-shadow: 0 1px 3px 0 hsl(var(--shadow-color) / 0.1), 0 1px 2px -1px hsl(var(--shadow-color) / 0.1);
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: hsl(var(--primary));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-base);
+}
+
+.stat-card:hover::before {
+  transform: scaleX(1);
+}
+
+.stat-card:hover {
+  border-color: hsl(var(--primary) / 0.5);
+  box-shadow: 0 10px 25px -5px hsl(var(--primary) / 0.15), 0 8px 10px -6px hsl(var(--primary) / 0.1);
+  transform: translateY(-4px);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--admin-foreground);
+  line-height: 1;
+  margin-bottom: var(--spacing-sm);
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--admin-muted-foreground);
+  font-weight: 500;
+}
+
+.stat-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.stat-trend.up {
+  background: hsl(var(--admin-success) / 0.1);
+  color: hsl(var(--admin-success));
+}
+
+.stat-trend.down {
+  background: hsl(var(--admin-error) / 0.1);
+  color: hsl(var(--admin-error));
+}
+
+/* ============================================
+   LOADING SKELETONS
+   ============================================ */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--admin-muted) 0%,
+    var(--admin-accent) 50%,
+    var(--admin-muted) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+.skeleton-text {
+  height: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-title {
+  height: 1.5rem;
+  width: 60%;
+  margin-bottom: 1rem;
+}
+
+.skeleton-card {
+  height: 200px;
+  border-radius: var(--radius-lg);
+}
+
+/* ============================================
+   BADGES
+   ============================================ */
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  transition: all var(--transition-fast);
+}
+
+.admin-badge-success {
+  background: hsl(var(--admin-success) / 0.1);
+  color: hsl(var(--admin-success));
+  border: 1px solid hsl(var(--admin-success) / 0.2);
+}
+
+.admin-badge-warning {
+  background: hsl(var(--admin-warning) / 0.1);
+  color: hsl(var(--admin-warning));
+  border: 1px solid hsl(var(--admin-warning) / 0.2);
+}
+
+.admin-badge-error {
+  background: hsl(var(--admin-error) / 0.1);
+  color: hsl(var(--admin-error));
+  border: 1px solid hsl(var(--admin-error) / 0.2);
+}
+
+.admin-badge-info {
+  background: hsl(var(--admin-info) / 0.1);
+  color: hsl(var(--admin-info));
+  border: 1px solid hsl(var(--admin-info) / 0.2);
+}
+
+.admin-badge-primary {
+  background: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
+  border: 1px solid hsl(var(--primary) / 0.2);
+}
+
+/* ============================================
+   EMPTY STATES
+   ============================================ */
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  background: var(--admin-card);
+  border: 2px dashed var(--admin-border);
+  border-radius: var(--radius-lg);
+}
+
+.empty-state-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--spacing-lg);
+  color: var(--admin-muted-foreground);
+  opacity: 0.5;
+}
+
+.empty-state-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--admin-foreground);
+  margin-bottom: var(--spacing-sm);
+}
+
+.empty-state-description {
+  font-size: 0.875rem;
+  color: var(--admin-muted-foreground);
+  margin-bottom: var(--spacing-lg);
+}
+
+/* ============================================
+   TOAST NOTIFICATIONS
+   ============================================ */
+[data-sonner-toaster] {
+  --normal-bg: var(--admin-card) !important;
+  --normal-border: var(--admin-border) !important;
+  --normal-text: var(--admin-foreground) !important;
+  --success-bg: hsl(var(--admin-success)) !important;
+  --success-border: hsl(var(--admin-success)) !important;
+  --success-text: #ffffff !important;
+  --error-bg: hsl(var(--admin-error)) !important;
+  --error-border: hsl(var(--admin-error)) !important;
+  --error-text: #ffffff !important;
+  --info-bg: hsl(var(--admin-info)) !important;
+  --info-border: hsl(var(--admin-info)) !important;
+  --info-text: #ffffff !important;
+  --warning-bg: hsl(var(--admin-warning)) !important;
+  --warning-border: hsl(var(--admin-warning)) !important;
+  --warning-text: #ffffff !important;
+}
+
+[data-sonner-toast] {
+  background: var(--normal-bg) !important;
+  border: 1px solid var(--normal-border) !important;
+  color: var(--normal-text) !important;
+  box-shadow: var(--shadow-xl) !important;
+  border-radius: var(--radius-lg) !important;
+}
+
+[data-sonner-toast][data-type="success"] {
+  background: var(--success-bg) !important;
+  border-color: var(--success-border) !important;
+  color: var(--success-text) !important;
+}
+
+[data-sonner-toast][data-type="error"] {
+  background: var(--error-bg) !important;
+  border-color: var(--error-border) !important;
+  color: var(--error-text) !important;
+}
+
+[data-sonner-toast][data-type="info"] {
+  background: var(--info-bg) !important;
+  border-color: var(--info-border) !important;
+  color: var(--info-text) !important;
+}
+
+[data-sonner-toast][data-type="warning"] {
+  background: var(--warning-bg) !important;
+  border-color: var(--warning-border) !important;
+  color: var(--warning-text) !important;
+}
+
+/* ============================================
+   KEYBOARD SHORTCUTS HINT
+   ============================================ */
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: ui-monospace, monospace;
+  background: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 1px 2px hsl(var(--shadow-color) / 0.05);
+  color: var(--admin-muted-foreground);
+}
+
+/* ============================================
+   THEME COLOR PICKER SLIDER
+   ============================================ */
+.theme-picker-container {
+  position: relative;
+  padding: 1rem;
+  background: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1rem;
+}
+
+.theme-picker-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--admin-foreground);
+}
+
+.theme-color-preview {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--admin-border);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-fast);
+}
+
+.theme-color-preview:hover {
+  transform: scale(1.1);
+}
+
+.theme-picker-slider {
+  position: relative;
+  height: 2rem;
+  border-radius: var(--radius-md);
+  background: linear-gradient(to right, 
+    hsl(0, 70%, 60%), 
+    hsl(60, 70%, 60%), 
+    hsl(120, 70%, 60%), 
+    hsl(180, 70%, 60%), 
+    hsl(240, 70%, 60%), 
+    hsl(300, 70%, 60%), 
+    hsl(360, 70%, 60%)
+  );
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.theme-picker-slider input[type="range"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.theme-picker-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 1.5rem;
+  height: 1.5rem;
+  background: white;
+  border: 3px solid hsl(var(--primary));
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  transition: transform var(--transition-fast);
+}
+
+.theme-picker-slider:hover .theme-picker-thumb {
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* ============================================
+   FORM INPUTS WITH THEME COLOR
+   ============================================ */
+.admin-panel input:focus,
+.admin-panel textarea:focus,
+.admin-panel select:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
+}
+
+/* ============================================
+   TABLES WITH THEME COLOR
+   ============================================ */
+.admin-table thead {
+  background: hsl(var(--primary) / 0.05);
+  border-bottom: 2px solid hsl(var(--primary) / 0.2);
+}
+
+.admin-table tbody tr:hover {
+  background: hsl(var(--primary) / 0.03);
+}
+
+.admin-table tbody tr.selected {
+  background: hsl(var(--primary) / 0.1);
+  border-left: 3px solid hsl(var(--primary));
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.hover-lift {
+  transition: transform var(--transition-base);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+.hover-scale {
+  transition: transform var(--transition-base);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.7));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   BUTTONS WITH THEME COLOR
+   ============================================ */
+.admin-button-primary {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: 1px solid hsl(var(--primary));
+  transition: all var(--transition-base);
+}
+
+.admin-button-primary:hover {
+  background: hsl(var(--primary) / 0.9);
+  box-shadow: 0 4px 12px hsl(var(--primary) / 0.3);
+  transform: translateY(-1px);
+}
+
+.admin-button-outline {
+  background: transparent;
+  color: hsl(var(--primary));
+  border: 1px solid hsl(var(--primary));
+  transition: all var(--transition-base);
+}
+
+.admin-button-outline:hover {
+  background: hsl(var(--primary) / 0.1);
+  border-color: hsl(var(--primary));
+}
+
+/* ============================================
+   LINKS WITH THEME COLOR
+   ============================================ */
+.admin-link {
+  color: hsl(var(--primary));
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.admin-link:hover {
+  color: hsl(var(--primary) / 0.8);
+  text-decoration: underline;
+}
+
+/* ============================================
+   RESPONSIVE UTILITIES
+   ============================================ */
+@media (max-width: 768px) {
+  .admin-card {
+    padding: var(--spacing-md);
+  }
+  
+  .stat-value {
+    font-size: 1.5rem;
+  }
+  
+  .admin-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .theme-picker-container {
+    padding: 0.75rem;
+  }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .admin-panel {
+    background: white;
+  }
+  
+  .admin-card {
+    border: 1px solid #000;
+    box-shadow: none;
+  }
+  
+  .theme-picker-container,
+  button {
+    display: none;
+  }
+}
